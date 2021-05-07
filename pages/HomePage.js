@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
+  StatusBar,
+  Image,
 } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
@@ -18,6 +20,7 @@ import genre from "../utils/genre";
 import axios from "axios";
 import Carousel from "react-native-snap-carousel";
 import { apiConfig } from "../config/config";
+import LottieView from "lottie-react-native";
 import { scrollInterpolator, animatedStyles } from "../utils/animation";
 
 const baseUrl = apiConfig.baseUrl;
@@ -33,7 +36,7 @@ const Search = () => {
       <Icon
         name="search"
         size={30}
-        color="#7868e6"
+        color="#fff"
         onPress={() => navigation.push("Search")}
       ></Icon>
     </TouchableOpacity>
@@ -114,22 +117,39 @@ class HomePage extends React.Component {
           <Header
             statusBarProps={{
               barStyle: "light-content",
-              backgroundColor: "#12151C",
+              backgroundColor: "#070D2D",
             }}
-						leftComponent={
-							<Text style={{fontFamily:'nunito-bold',color:'#7868e6', fontSize:25, width:150}}>MangaSub</Text>
-						}
+            leftComponent={
+              <Text
+                style={{
+                  fontFamily: "nunito-bold",
+                  color: "#7868e6",
+                  fontSize: 25,
+                  width: 150,
+                }}
+              >
+                MangaSub
+              </Text>
+            }
             containerStyle={{
-              backgroundColor: "#12151C",
-              borderBottomColor: "#12151C",
+              backgroundColor: "#070D2D",
+              borderBottomColor: "#070D2D",
             }}
-           
             rightComponent={Search}
           ></Header>
 
           <ScrollView horizontal={false}>
-						<Text style={{fontFamily:'nunito-bold',color:'#fff', fontSize:30, padding:10}}>Discover</Text>
-            <Text style={styles.sectionHeader}>Genre</Text>
+            <Text
+              style={{
+                fontFamily: "nunito-bold",
+                color: "#fff",
+                fontSize: 30,
+                padding: 10,
+              }}
+            >
+              Discover
+            </Text>
+            <Text style={styles.sectionHeader}>Genres</Text>
 
             <View style={{ height: 70 }}>
               <ScrollView horizontal={true}>
@@ -157,8 +177,8 @@ class HomePage extends React.Component {
               </ScrollView>
             </View>
 
-            <View style={{ height: 270 }}>
-              <Text style={styles.sectionHeader}>Hot Manga 🔥 </Text>
+            <View style={{ height: 300 }}>
+              <Text style={styles.sectionHeader}>Hot Manga</Text>
               <Carousel
                 ref={(c) => (this.carousel = c)}
                 data={hot}
@@ -219,12 +239,15 @@ class HomePage extends React.Component {
     } else {
       return (
         <View style={styles.title}>
-          <ActivityIndicator
-            animating={true}
-            size="large"
-            style={{ opacity: 1 }}
-            color="#ff8303"
-          />
+          <StatusBar barStyle="light-content" backgroundColor="#070D2D" />
+          <View>
+            <ActivityIndicator
+              animating={true}
+              size="large"
+              style={{ opacity: 1 }}
+              color="#7868e6"
+            />
+          </View>
         </View>
       );
     }
@@ -243,11 +266,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
-    backgroundColor: "#12151C",
+    backgroundColor: "#070D2D",
   },
   container: {
     flex: 1,
-    backgroundColor: "#12151C",
+    backgroundColor: "#070D2D",
   },
   sectionHeader: {
     fontFamily: "nunito-bold",
@@ -259,13 +282,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   genre: {
-    backgroundColor: "#fff",
+    backgroundColor: "#161A37",
     width: 80,
     height: 30,
     alignItems: "center",
     justifyContent: "center",
     marginLeft: 10,
     borderRadius: 7,
-
   },
 });

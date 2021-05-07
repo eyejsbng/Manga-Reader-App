@@ -52,13 +52,13 @@ class SearchPage extends React.Component {
     loading: false,
     page: 1,
     search: false,
-		dataNull: false,
-		loadMore: false
+    dataNull: false,
+    loadMore: false,
   };
   alert(msg) {
     Alert.alert("Message", msg);
   }
-	
+
   fetchData(keyword) {
     this.setState({ loading: true });
 
@@ -81,7 +81,7 @@ class SearchPage extends React.Component {
   }
   loadMore() {
     const { manga } = this.state;
-  
+
     axios
       .get(
         baseUrl + "manga/search/" + this.state.keyword + "/" + this.state.page
@@ -90,16 +90,15 @@ class SearchPage extends React.Component {
         const data = resp.data.data;
         const updateData = manga.concat(data);
 
-				if(data == "") {
-					this.setState({dataNull: true});
-				} else {
-					this.setState({
-						manga: updateData,
-						loadMore: true,
-						page: this.state.page + 1,
-					});
-				}
-        
+        if (data == "") {
+          this.setState({ dataNull: true });
+        } else {
+          this.setState({
+            manga: updateData,
+            loadMore: true,
+            page: this.state.page + 1,
+          });
+        }
       })
       .catch((err) => {
         alert(err);
@@ -107,7 +106,7 @@ class SearchPage extends React.Component {
   }
 
   render() {
-    const { keyword, manga} = this.state;
+    const { keyword, manga } = this.state;
 
     return (
       <View style={styles.container}>
@@ -115,22 +114,22 @@ class SearchPage extends React.Component {
           <Header
             statusBarProps={{
               barStyle: "light-content",
-              backgroundColor: "#7868e6",
+              backgroundColor: "#070D2D",
             }}
             containerStyle={{
-              backgroundColor: "#7868e6",
-              borderBottomColor: "#7868e6",
+              backgroundColor: "#070D2D",
+              borderBottomColor: "#070D2D",
             }}
             leftComponent={backButton}
             centerComponent={
               <TextInput
                 editable={!this.state.loading}
-                selectionColor={"#7868e6"}
+                selectionColor={"#fff"}
                 focusable={true}
                 style={styles.searchInput}
                 value={this.state.keyword}
                 placeholder="Search"
-                placeholderTextColor="#7868e6"
+                placeholderTextColor="#fff"
                 onChangeText={(keyword) => this.setState({ keyword: keyword })}
                 onSubmitEditing={() => {
                   this.fetchData(keyword);
@@ -138,7 +137,7 @@ class SearchPage extends React.Component {
               />
             }
             rightComponent={
-              <Loader loading={this.state.loading} color={"#fff"} />
+              <Loader loading={this.state.loading} color={"#7868e6"} />
             }
           />
         </View>
@@ -147,15 +146,10 @@ class SearchPage extends React.Component {
             <FlatList
               numColumns={2}
               data={manga}
-
-							onEndReachedThreshold={0.1}
-              onEndReached={({distanceFromEnd}) => {
-								if(distanceFromEnd > 0) 
-									console.log(this.state.page)
-									this.loadMore();
-								  
-							}}
-           
+              onEndReachedThreshold={0.5}
+              onEndReached={({ distanceFromEnd }) => {
+                this.loadMore();
+              }}
               ListFooterComponent={
                 <Loader loading={this.state.loadMore} color={"#7868e6"} />
               }
@@ -178,15 +172,9 @@ class SearchPage extends React.Component {
             />
           ) : this.state.search ? (
             <View style={styles.error}>
-              <Text style={{ color: "#151515" }}>
+              <Text style={{ color: "#fff" }}>
                 Sorry, we can't find what you are looking for.
               </Text>
-              <LottieView
-                source={require("../lottie/36499-page-not-found.json")}
-                autoPlay
-                loop
-                style={{}}
-              />
             </View>
           ) : null}
         </View>
@@ -204,13 +192,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: 250,
     fontSize: 18,
-    backgroundColor: "#b8b5ff",
-    color: "#7868e6",
+    backgroundColor: "#161A37",
+    color: "#fff",
   },
   error: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "center",
     top: 40,
   },
   title: {
@@ -221,6 +209,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#070D2D",
   },
 });

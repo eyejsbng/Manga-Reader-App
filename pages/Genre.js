@@ -12,7 +12,6 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { apiConfig } from "../config/config";
 import MangaImage from "../components/MangaImage";
-import LottieView from 'lottie-react-native';
 const baseUrl = apiConfig.baseUrl;
 
 function showManga(item) {
@@ -53,8 +52,8 @@ class Genre extends React.Component {
     genre: [],
     page: 1,
     loading: false,
-		fetching : false,
-		dataNull: false
+    fetching: false,
+    dataNull: false,
   };
   componentDidMount() {
     this._isMounted = true;
@@ -67,12 +66,16 @@ class Genre extends React.Component {
     const genre = this.props.route.params.genre;
     const slug = this.replaceSpace(genre);
     const url = `${baseUrl}manga/genre/${slug}/${this.state.page}`;
-		this.setState({fetching:true});
+    this.setState({ fetching: true });
     axios
       .get(url)
       .then((resp) => {
         const data = resp.data.data;
-        this.setState({ genre: data, page: this.state.page + 1,fetching:false });
+        this.setState({
+          genre: data,
+          page: this.state.page + 1,
+          fetching: false,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -90,13 +93,12 @@ class Genre extends React.Component {
       .then((resp) => {
         const data = resp.data.data;
         const updateData = genre.concat(data);
-				
-				this.setState({
-					genre: updateData,
-					page: this.state.page + 1,
-					loading: false,
-				});
-		 
+
+        this.setState({
+          genre: updateData,
+          page: this.state.page + 1,
+          loading: false,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -108,18 +110,18 @@ class Genre extends React.Component {
     return string;
   }
   render() {
-    const { genre,fetching } = this.state;
-	
+    const { genre, fetching } = this.state;
+
     return (
       <View style={styles.container}>
         <Header
           statusBarProps={{
             barStyle: "light-content",
-            backgroundColor: "#7868e6",
+            backgroundColor: "#070D2D",
           }}
           containerStyle={{
-            backgroundColor: "#7868e6",
-            borderBottomColor: "#12151C",
+            backgroundColor: "#070D2D",
+            borderBottomColor: "#070D2D",
           }}
           leftComponent={backButton}
           centerComponent={
@@ -141,12 +143,9 @@ class Genre extends React.Component {
             numColumns={2}
             data={genre}
             onEndReached={({ distanceFromEnd }) => {
-						
-								this.loadMore();
-							}    
-            }
+              this.loadMore();
+            }}
             onEndReachedThreshold={0.7}
-            
             ListFooterComponent={<Loader loading={this.state.loading} />}
             renderItem={({ item }) => (
               <View style={{ marginTop: 10 }}>
@@ -163,15 +162,16 @@ class Genre extends React.Component {
                 />
               </View>
             )}
-
             keyExtractor={(item, index) => index.toString()}
           />
-        ) : 	<LottieView
-				source={require("../lottie/46472-lurking-cat.json")}
-				autoPlay
-				loop
-				style={{}}
-			/>}
+        ) : (
+          <ActivityIndicator
+            animating={true}
+            size="large"
+            style={{ opacity: 1, top: 100 }}
+            color="#7868e6"
+          />
+        )}
       </View>
     );
   }
@@ -182,6 +182,6 @@ export default Genre;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#070D2D",
   },
 });

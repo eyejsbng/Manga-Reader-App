@@ -5,6 +5,7 @@ import {
   FlatList,
   ActivityIndicator,
   StatusBar,
+  Text,
 } from "react-native";
 import axios from "axios";
 import ChapterImages from "../components/ChapterImages";
@@ -34,11 +35,12 @@ class Chapter extends React.Component {
     if (loading) {
       return (
         <View style={styles.title}>
+          <Text style={styles.loadingFont}>Loading images...</Text>
           <ActivityIndicator
             animating={true}
             size="large"
             style={{ opacity: 1 }}
-            color="#ff8303"
+            color="#fff"
           />
         </View>
       );
@@ -65,6 +67,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
-		backgroundColor: '#12151C'
+    backgroundColor: "#070D2D",
+  },
+  loadingFont: {
+    fontSize: 15,
+    fontFamily: "nunito",
+    color: "#fff",
   },
 });

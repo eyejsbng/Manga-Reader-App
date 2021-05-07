@@ -23,7 +23,6 @@ function MyStack() {
 	return (
 		<Stack.Navigator mode="card" headerMode="screen" initialRouteName="Home" screenOptions={{
 			cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-			gestureEnabled: true,
 		}}>
 			<Stack.Screen name="Home" component={HomePage} options={{headerShown: false}}/>
 			<Stack.Screen name="Manga" component={Manga} 
