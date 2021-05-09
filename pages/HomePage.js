@@ -9,7 +9,6 @@ import {
   ScrollView,
   Dimensions,
   StatusBar,
-  Image,
 } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
@@ -20,7 +19,6 @@ import genre from "../utils/genre";
 import axios from "axios";
 import Carousel from "react-native-snap-carousel";
 import { apiConfig } from "../config/config";
-import LottieView from "lottie-react-native";
 import { scrollInterpolator, animatedStyles } from "../utils/animation";
 
 const baseUrl = apiConfig.baseUrl;
@@ -209,12 +207,30 @@ class HomePage extends React.Component {
               />
             </View>
             <View style={{ height: 330 }}>
-              <Text style={styles.sectionHeader}>Latest Update</Text>
+							<View style={{flex:1,flexDirection:'row', justifyContent:'space-between'}}>
+							<Text style={styles.sectionHeader}>Latest Update</Text>
+							
+							<TouchableOpacity onPress={() => {
+								this.props.navigation.push("Latest")
+							}}>
+							<Text style={{fontSize:15,
+								fontWeight:'700', 
+								color:'#fff',marginLeft:'auto',
+								marginRight:10,top:20}}>
+								View More
+							
+							</Text>
+							</TouchableOpacity>
+							
+						
+							
+							</View>
+              
 
               <FlatList
                 bounces={true}
                 initialNumToRender={2}
-                style={{ height: 150 }}
+                style={{ height: 180 }}
                 horizontal
                 data={latest}
                 renderItem={({ item, index }) => (

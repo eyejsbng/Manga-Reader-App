@@ -7,6 +7,7 @@ import SearchPage from './pages/SearchPage';
 import Manga from './pages/Manga';
 import Chapter from './pages/Chapter';
 import Genre from './pages/Genre';
+import Latest from './pages/Latest';
 import * as Font from 'expo-font';
 
 function getFonts() {
@@ -32,7 +33,7 @@ function MyStack() {
 			options={{ headerShown: false}}/>
 			<Stack.Screen name="Chapter" component={Chapter} options={{headerShown: false}}/>
 			<Stack.Screen name="Genre" component={Genre} options={{headerShown: false}}/>	
-
+			<Stack.Screen name="Latest" component={Latest} options={{headerShown: false}} />
 		</Stack.Navigator>
 	)
 }

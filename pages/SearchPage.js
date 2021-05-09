@@ -146,7 +146,7 @@ class SearchPage extends React.Component {
             <FlatList
               numColumns={2}
               data={manga}
-              onEndReachedThreshold={0.5}
+              onEndReachedThreshold={0.7}
               onEndReached={({ distanceFromEnd }) => {
                 this.loadMore();
               }}

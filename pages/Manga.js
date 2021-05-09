@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -6,8 +6,6 @@ import {
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
-  ScrollView,
-  ImageBackground,
   Dimensions,
 } from "react-native";
 import { Header, Icon, Card } from "react-native-elements";
@@ -74,7 +72,7 @@ class Manga extends React.Component {
       .get("https://warm-refuge-03594.herokuapp.com/api/manga/" + name)
       .then((data) => {
         this.setState({ manga: data.data, loading: false });
-        console.log(this.state.manga);
+       
       })
       .catch((err) => {
         console.error(err);
@@ -94,7 +92,10 @@ class Manga extends React.Component {
     if (!loading) {
       return (
         <ParallaxScrollView
-          parallaxHeaderHeight={window.height / 2}
+
+					backgroundColor="#070D2D"
+					contentBackgroundColor="#070D2D"
+          parallaxHeaderHeight={window.height / 2.2}
           renderStickyHeader={() => (
             <Header
               statusBarProps={{
@@ -121,7 +122,8 @@ class Manga extends React.Component {
               }
             />
           )}
-          stickyHeaderHeight={90}
+          stickyHeaderHeight={window.height / 7}
+
           renderBackground={() => (
             <View
               style={{
@@ -129,7 +131,7 @@ class Manga extends React.Component {
                 top: 0,
                 left: 0,
                 width: window.width,
-                height: window.height / 2,
+                height: window.height / 2.2,
               }}
             >
               <Image
@@ -165,7 +167,7 @@ class Manga extends React.Component {
           )}
         >
           {!loading ? (
-            <View style={{ backgroundColor: "#070D2D" }}>
+            <View style={{ backgroundColor: "#070D2D",height: 'auto'}}>
               <View style={{ margin: 15 }}>
                 <Text
                   style={{
@@ -209,8 +211,8 @@ class Manga extends React.Component {
                     marginTop: 10,
                   }}
                 >
-                  {manga.genres.map((d) => (
-                    <Text
+                  {manga.genres.map((d, index) => (
+                    <Text key={index.toString()}
                       style={{
                         backgroundColor: "#7868e6",
                         width: 80,
@@ -296,120 +298,7 @@ class Manga extends React.Component {
         </View>
       );
     }
-    // return (
-    //   <View style={styles.container}>
-    //     <Header
-    //       statusBarProps={{
-    //         barStyle: "light-content",
-    //         backgroundColor: "#070D2D",
-    //       }}
-
-    //       containerStyle={{
-    //         backgroundColor: "#070D2D",
-    //         borderBottomColor: "#070D2D",
-    //       }}
-    //       leftComponent={backButton}
-
-    //     />
-    // 		{
-    // 			!loading ?  <ScrollView>
-
-    //         <View style={{ backgroundColor: "rgba(0,0,0,0.5)" }} />
-    //         <View style={{ flex: 1, flexDirection: "column", alignItems:'center', margin: 20 }}>
-    //           <Image
-    //             style={styles.thumbnail}
-    //             source={{
-    //               uri: manga.thumbnail,
-    //             }}
-    //             resizeMode="cover"
-    //           />
-
-    //       	</View>
-    // 				<View style={{padding:15}}>
-    // 				<Text style={{color:'#fff', fontFamily:'nunito-bold', fontSize:25, fontWeight:'700'}}>
-    // 					{ this.props.route.params.title}
-    // 				</Text>
-    //             <Text
-    //               style={{ fontWeight: "700", color: "#fff", fontSize: 18 }}
-    //             >
-    //               Author: {manga.author.replace(",", "")}
-    //             </Text>
-    //             <Text style={{ fontWeight: "700", color: "#fff", fontSize:18 }}>
-    //               Status:  {manga.status.trim(" ")}
-    //             </Text>
-    // 						{
-    // 							manga.genres.map((g) => {
-    // 							<Text>{g}</Text>
-    // 							}
-    // 							)
-    // 						}
-    //           </View>
-    //       <Card containerStyle={{backgroundColor:'#161A37',borderColor:'#161A37',borderRadius:10}}
-    // 			>
-
-    //         {manga.description.trim() == "" ? (
-    //           <Text style={{color:'#fff', fontFamily:'nunito',}}>--</Text>
-    //         ) : (
-    // 					<View>
-    // 						<Text
-
-    // 							numberOfLines={3}
-    // 							style={{ textAlign: "justify", color: "#797979" }}
-    // 							>
-    // 							{manga.description.trim(" ")}
-    // 						</Text>
-    // 						<Text onPress={() => console.log("Hello")}>View More..</Text>
-    // 					</View>
-    //         )}
-    //       </Card>
-
-    //       <View style={{ margin: 10 }}>
-    //         <Text style={{ fontWeight: "700", fontSize: 16, color: "#fff" }}>
-    //           Chapters
-    //         </Text>
-    //       </View>
-    //       <View
-    //         style={{
-
-    //           flexDirection: "row",
-    //           flexWrap: "wrap",
-
-    //         }}
-    //       >
-
-    //         {
-    // 					manga.chapters.map((d, i) => {
-    // 						return (
-    // 							<Chapter
-    // 								key={i}
-    // 								item={d}
-    // 								selectChapter={() => {
-    // 									const link = d.link;
-    // 									let chapter = link.split("/");
-    // 									let chapterNumber = chapter[chapter.length - 1];
-
-    // 									this.props.navigation.push("Chapter", {
-    // 										chapter: chapterNumber,
-    // 									});
-    // 								}}
-    // 							/>
-    // 						);
-    //         	})
-    // 				}
-    //       </View>
-    //     </ScrollView>
-    // 			: <View style={styles.title}>
-    // 			<ActivityIndicator
-    // 				animating={true}
-    // 				size="small"
-    // 				style={{ opacity: 1 }}
-    // 				color="#7868e6"
-    // 			/>
-    // 		</View>
-    // 		}
-
-    //   </View>
-    // );
+    
   }
 }
 

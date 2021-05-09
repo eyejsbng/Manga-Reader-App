@@ -1,26 +1,12 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  ActivityIndicator,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator, FlatList} from "react-native";
 import { Header, Icon } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
-import { apiConfig } from "../config/config";
+import { apiConfig } from '../config/config';
 import MangaImage from "../components/MangaImage";
+
+import axios from 'axios';
 const baseUrl = apiConfig.baseUrl;
-
-function showManga(item) {
-  const link = item.link;
-  let res = link.split("/");
-  res = res[res.length - 1];
-  return res;
-}
-
 function backButton() {
   const navigation = useNavigation();
   return (
@@ -45,57 +31,45 @@ function Loader(loading) {
     />
   ) : null;
 }
-class Genre extends React.Component {
-  _isMounted = false;
-  onEndReachedCalledDuringMomentum = true;
-  state = {
-    genre: [],
-    page: 1,
-    loading: false,
-    fetching: false,
-    dataNull: false,
-  };
-  componentDidMount() {
-    this._isMounted = true;
-    this.fetchData();
-  }
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-  fetchData() {
-    const genre = this.props.route.params.genre;
-    const slug = this.replaceSpace(genre);
-    const url = `${baseUrl}manga/genre/${slug}/${this.state.page}`;
-    this.setState({ fetching: true });
-    axios
-      .get(url)
-      .then((resp) => {
-        const data = resp.data.data;
-        this.setState({
-          genre: data,
-          page: this.state.page + 1,
-          fetching: false,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  loadMore() {
-    const genres = this.props.route.params.genre;
-    const { genre } = this.state;
-    const slug = this.replaceSpace(genres);
+
+function showManga(item) {
+  const link = item.link;
+  let res = link.split("/");
+  res = res[res.length - 1];
+  return res;
+}
+
+class Latest extends React.Component {
+	state = {
+		page: 1,
+		manga: [],
+		loading : false,
+	}
+	 
+	_fetchData() {
+			this.setState({loading:true});
+			axios.get(`${baseUrl}manga/latest`).then((resp) => {
+				const data = resp.data.data;
+
+				this.setState({
+					manga:data, 
+					loading:false, 
+					page: this.state.page + 1,
+				})
+		
+			})
+	}
+	_loadMore() {
+		const { manga } = this.state;
     this.setState({ loading: true });
-    const url = `${baseUrl}manga/genre/${slug}/${this.state.page}`;
-
     axios
-      .get(url)
+      .get(`${baseUrl}manga/latest/${this.state.page}`)
       .then((resp) => {
         const data = resp.data.data;
-        const updateData = genre.concat(data);
+        const updateData = manga.concat(data);
 
         this.setState({
-          genre: updateData,
+          manga: updateData,
           page: this.state.page + 1,
           loading: false,
         });
@@ -103,15 +77,12 @@ class Genre extends React.Component {
       .catch((err) => {
         console.log(err);
       });
-  }
-  replaceSpace(slug) {
-    let string = slug;
-    string = slug.replace(/\s/g, "-");
-    return string;
-  }
+	}
+  componentDidMount() {
+		this._fetchData()
+	}
   render() {
-    const { genre, fetching } = this.state;
-
+		const { manga, loading } = this.state
     return (
       <View style={styles.container}>
         <Header
@@ -134,19 +105,28 @@ class Genre extends React.Component {
                 paddingTop: 5,
               }}
             >
-              {this.props.route.params.genre}
+              Latest
             </Text>
           }
         />
-        {genre != "" ? (
-          <FlatList
+
+				{
+					manga == '' ? (
+						<ActivityIndicator
+            animating={true}
+            size="large"
+            style={{ opacity: 1, top: 100 }}
+            color="#7868e6"
+          />
+					) : (
+						<FlatList
             numColumns={2}
-            data={genre}
+            data={manga}
             onEndReached={({ distanceFromEnd }) => {
-              this.loadMore();
+              this._loadMore();
             }}
             onEndReachedThreshold={0.7}
-            ListFooterComponent={<Loader loading={this.state.loading} />}
+            ListFooterComponent={<Loader loading={loading} />}
             renderItem={({ item }) => (
               <View style={{ marginTop: 10 }}>
                 <MangaImage
@@ -164,20 +144,12 @@ class Genre extends React.Component {
             )}
             keyExtractor={(item, index) => index.toString()}
           />
-        ) : (
-          <ActivityIndicator
-            animating={true}
-            size="large"
-            style={{ opacity: 1, top: 100 }}
-            color="#7868e6"
-          />
-        )}
+					)
+				}
       </View>
     );
   }
 }
-
-export default Genre;
 
 const styles = StyleSheet.create({
   container: {
@@ -185,3 +157,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#070D2D",
   },
 });
+
+export default Latest;

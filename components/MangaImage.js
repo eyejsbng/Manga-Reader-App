@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   item: {
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 5,
+
     alignContent: "center",
     width: 190,
   },
