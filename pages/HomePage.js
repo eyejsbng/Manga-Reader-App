@@ -207,26 +207,20 @@ class HomePage extends React.Component {
               />
             </View>
             <View style={{ height: 330 }}>
-							<View style={{flex:1,flexDirection:'row', justifyContent:'space-between'}}>
-							<Text style={styles.sectionHeader}>Latest Update</Text>
-							
-							<TouchableOpacity onPress={() => {
-								this.props.navigation.push("Latest")
-							}}>
-							<Text style={{fontSize:15,
-								fontWeight:'700', 
-								color:'#fff',marginLeft:'auto',
-								marginRight:10,top:20}}>
-								View More
-							
-							</Text>
-							</TouchableOpacity>
-							
-						
-							
-							</View>
-              
+		<View style={{flex:1,flexDirection:'row', justifyContent:'space-between'}}>
+		<Text style={styles.sectionHeader}>Latest Update</Text>
 
+		<TouchableOpacity onPress={() => {
+			this.props.navigation.push("Latest")
+		}}>
+		<Text style={{fontSize:15,
+			fontWeight:'700', 
+			color:'#fff',marginLeft:'auto',
+			marginRight:10,top:20}}>
+			View More
+		</Text>
+		</TouchableOpacity>
+		</View>
               <FlatList
                 bounces={true}
                 initialNumToRender={2}
